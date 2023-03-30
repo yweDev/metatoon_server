@@ -1,5 +1,6 @@
 require('dotenv').config();
 const Koa = require('koa');
+const cors = require('@koa/cors');
 const Router = require('@koa/router');
 const bodyParser = require('koa-bodyparser');
 const render = require('koa-ejs');
@@ -18,6 +19,7 @@ app.use(require('koa-static')(`${__dirname}/public`));
 
 // 라우터 설정
 router.use(require('./src/routes').routes());
+app.use(cors());
 app.use(router.routes());
 app.use(router.allowedMethods());
 

@@ -6,6 +6,7 @@ exports.upload = async (ctx) => {
   let file = ctx.request.file;
 
   let { affectedRows, insertId } = await create(file.originalname, file.path, file.size);
+  console.log("Saved Path : " + file.path);
   
   if(affectedRows > 0) {
     ctx.body = { result: "ok", id: insertId }
@@ -13,8 +14,14 @@ exports.upload = async (ctx) => {
     ctx.body = { result: "fail", }
   }
 }
+
+/*
+html header body 
+
+*/
 /** 파일 다운로드 */
 exports.download = async ctx => {
+  // ctx.response.setHeader("Access-Control-Allow-Origin", "*");
   let { id } = ctx.params;
   
   let item = await show(id);

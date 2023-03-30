@@ -1,6 +1,7 @@
 const Router = require('@koa/router');
-const router = new Router();
 const multer = require('@koa/multer');
+const router = new Router();
+
 const path = require('path');
 const upload = multer({ 
     dest: path.resolve(__dirname, '../', 'storage')
@@ -19,6 +20,7 @@ router.use(myLogging);
 
 router.post('/file/upload', upload.single('file'), require('./api/file/controller').upload);
 router.get('/file/:id', require('./api/file/controller').download);
+// ip/file/3
 
 router.get('/', webController.home);
 router.get('/page/:page', webController.page);
@@ -26,10 +28,10 @@ router.get('/page/:page', webController.page);
 router.post('/api/user/register', apiUserController.register);
 router.post('/api/user/login', apiUserController.login);
 
-router.use(verify);
+// router.use(verify);
 router.get('/api/user/:id', apiUserController.info);
 
-router.get('/api/feed', apiFeedController.index);
+router.get('/api/feed', apiFeedController.index); 
 router.post('/api/feed', apiFeedController.store);
 router.get('/api/feed/:id', apiFeedController.show);
 router.put('/api/feed/:id', apiFeedController.update);
