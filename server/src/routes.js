@@ -18,10 +18,6 @@ const { get } = require('http');
 
 router.use(myLogging);
 
-router.post('/file/upload', upload.single('file'), require('./api/file/controller').upload);
-router.get('/file/:id', require('./api/file/controller').download);
-// ip/file/3
-
 router.get('/', webController.home);
 router.get('/page/:page', webController.page);
 
@@ -29,7 +25,11 @@ router.post('/api/user/register', apiUserController.register);
 router.post('/api/user/login', apiUserController.login);
 
 // router.use(verify);
+
 router.get('/api/user/:id', apiUserController.info);
+
+router.post('/file/upload', upload.single('file'), require('./api/file/controller').upload);
+router.get('/file/:id', require('./api/file/controller').download);
 
 router.get('/api/feed', apiFeedController.index); 
 router.post('/api/feed', apiFeedController.store);

@@ -1,0 +1,27 @@
+# docker-compose.yml
+
+version: '1'
+services:
+  server:
+    build:
+      context: ./server
+    restart: always
+    ports: 
+      - 3000:3000
+    networks:
+      - pseudo-net
+    links:
+      - "db"
+  db:
+    build:
+      context: ./db
+    restart: always
+    volumes:
+      - ./db/init:/docker-entrypoint-initdb.d
+      - ./db/data:/var/lib/mysql
+    networks:
+      - pseudo-net
+    ports:
+      - 3306:3306
+networks:
+  pseudo-net:
