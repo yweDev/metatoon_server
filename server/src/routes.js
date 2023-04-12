@@ -30,6 +30,8 @@ router.get('/api/user/:id', apiUserController.info);
 
 router.post('/file/upload', upload.single('file'), require('./api/file/controller').upload);
 router.get('/file/:id', require('./api/file/controller').download);
+router.get('/file/index', require('./api/file/controller').index);
+
 
 router.get('/api/feed', apiFeedController.index); 
 router.post('/api/feed', apiFeedController.store);

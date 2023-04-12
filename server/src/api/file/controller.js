@@ -1,5 +1,5 @@
-const { create, show } = require('./query');
-const fs = require('fs')
+const { create, show, index } = require('./query');
+const fs = require('fs');
 
 /** 파일 업로드 */
 exports.upload = async (ctx) => {
@@ -34,4 +34,18 @@ exports.download = async ctx => {
   ctx.response.set("content-disposition", `attachment; filename=${item.original_name}`);
   ctx.statusCode = 200;
   ctx.body = fs.createReadStream(item.file_path);
+}
+
+/** 전체 index 가져오기 */
+exports.index = async ctx => {
+  // ctx.response.setHeader("Access-Control-Allow-Origin", "*");
+  let item = await index();
+  
+  if(item == null)  {
+    ctx.body = {result: "fail"};
+    return;
+  }
+
+  ctx.statusCode = 200;
+  ctx.body = { item };
 }
