@@ -37,15 +37,15 @@ exports.download = async ctx => {
 }
 
 /** 전체 index 가져오기 */
-exports.index = async ctx => {
+exports.index = async (ctx, next) => {
   // ctx.response.setHeader("Access-Control-Allow-Origin", "*");
   let item = await index();
   
-  if(item == null)  {
-    ctx.body = {result: "fail"};
-    return;
-  }
+  // if(item == null)  {
+  //   ctx.body = {result: "fail"};
+  //   return;
+  // }
 
   ctx.statusCode = 200;
-  ctx.body = { item };
+  ctx.body = item;
 }
