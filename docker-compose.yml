@@ -1,13 +1,13 @@
 # docker-compose.yml
 
-version: '1'
+version: '3.5'
 services:
   server:
     build:
       context: ./server
     restart: always
     ports: 
-      - 3000:3000
+      - 46351:3000
     networks:
       - pseudo-net
     links:
@@ -22,6 +22,6 @@ services:
     networks:
       - pseudo-net
     ports:
-      - 3306:3306
+      - 46352:3306
 networks:
   pseudo-net:

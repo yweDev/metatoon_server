@@ -23,3 +23,10 @@ exports.show = async (id) => {
   let result = await pool(query, [id]);
   return (result.length < 0) ? null : result[0];
 }
+
+exports.index = async () => {
+  const query = `select id from files;`;
+  let result = await pool(query);
+  console.log(result, result.length);
+  return result;
+}
