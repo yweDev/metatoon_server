@@ -6,6 +6,8 @@ services:
     build:
       context: ./server
     restart: always
+    volumes:
+      - ./db/storage:/app/storage
     ports: 
       - 46351:3000
     networks:

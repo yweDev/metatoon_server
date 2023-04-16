@@ -1,5 +1,7 @@
 const { create, show, index } = require('./query');
 const fs = require('fs');
+const JSZip = require('jszip');
+const { PassThrough } = require('stream');
 
 /** 파일 업로드 */
 exports.upload = async (ctx) => {
@@ -40,12 +42,24 @@ exports.download = async ctx => {
 exports.index = async (ctx, next) => {
   // ctx.response.setHeader("Access-Control-Allow-Origin", "*");
   let item = await index();
-  
-  // if(item == null)  {
-  //   ctx.body = {result: "fail"};
-  //   return;
-  // }
+  const zip = new JSZip;
 
+  if(item == null)  {
+    ctx.body = {result: "failure in retrieving files."};
+    return;
+  }
+
+  for(let i = 0; i < item.length; i++)
+  {
+    zip.file(item[i].file_path, item[i].original_name);
+  }
+
+  const stream = new PassThrough();
+  zip.generateNodeStream({type: 'nodebuffer', streamFiles: true}).pipe(stream);
+
+  ctx.set('Content-Type', 'application/zip');
+  ctx.set('Content-Disposition', 'attatchment; filename="files.zip"');
+  
   ctx.statusCode = 200;
-  ctx.body = item;
+  ctx.body = stream;
 }

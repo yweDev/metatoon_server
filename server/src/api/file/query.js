@@ -25,6 +25,7 @@ exports.show = async (id) => {
 }
 
 exports.index = async () => {
-  const query = `SELECT id from files;`;
+  // Below query is subject to change
+  const query = `SELECT * from files;`;
   return await pool(query);
 }
