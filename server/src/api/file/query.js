@@ -24,8 +24,13 @@ exports.show = async (id) => {
   return (result.length < 0) ? null : result[0];
 }
 
-exports.index = async () => {
+exports.archive = async () => {
   // Below query is subject to change
   const query = `SELECT * from files;`;
+  return await pool(query);
+}
+
+exports.index = async () => {
+  const query = `SELECT id FROM files;`;
   return await pool(query);
 }

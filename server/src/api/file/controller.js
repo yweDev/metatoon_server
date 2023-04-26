@@ -1,4 +1,4 @@
-const { create, show, index } = require('./query');
+const { create, show, archive, index } = require('./query');
 const fs = require('fs');
 const JSZip = require('jszip');
 const { PassThrough } = require('stream');
@@ -38,10 +38,10 @@ exports.download = async ctx => {
   ctx.body = fs.createReadStream(item.file_path);
 }
 
-/** 전체 index 가져오기 */
-exports.index = async (ctx, next) => {
+/** 압축파일로 반환 */
+exports.archive = async ctx => {
   // ctx.response.setHeader("Access-Control-Allow-Origin", "*");
-  let item = await index();
+  let item = await archive();
   const zip = new JSZip;
 
   if(item == null)  {
@@ -62,4 +62,16 @@ exports.index = async (ctx, next) => {
   
   ctx.statusCode = 200;
   ctx.body = stream;
+}
+
+exports.index = async ctx => {
+  let item = await index();
+
+  if(item == null) {
+    ctx.body = {result: "failure in retrieving files."}
+    return;
+  }
+
+  ctx.statusCode = 200;
+  ctx.body = item;
 }
