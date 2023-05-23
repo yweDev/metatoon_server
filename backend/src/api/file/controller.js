@@ -1,4 +1,4 @@
-const { create, show, archive, index } = require('./query');
+const { q_upload, q_update, q_download, q_archive, q_index } = require('./query');
 const fs = require('fs');
 const JSZip = require('jszip');
 const { PassThrough } = require('stream');
@@ -6,8 +6,28 @@ const { PassThrough } = require('stream');
 /** 파일 업로드 */
 exports.upload = async (ctx) => {
   let file = ctx.request.file;
+  let { fileTitle } = ctx.request.body;
+  let user = ctx.request.user;
 
-  let { affectedRows, insertId } = await create(file.originalname, file.path, file.size);
+  let { affectedRows, insertId } = await q_upload(file.originalname, file.path, file.size, fileTitle, user.id);
+  console.log("Saved Path : " + file.path);
+  
+  if(affectedRows > 0) {
+    ctx.body = { result: "ok", id: insertId }
+  } else {
+    ctx.body = { result: "fail", }
+  }
+}
+
+/** 파일 업데이트 */
+exports.update = async (ctx) => {
+  let file = ctx.request.file;
+  let { fileId, fileTitle } = ctx.request.body;
+  let user = ctx.request.user;
+
+  // 요청자와 파일 소유자 확인 코드 추가
+
+  let { affectedRows, insertId } = await q_update(file.originalname, file.path, file.size, fileTitle, fileId);
   console.log("Saved Path : " + file.path);
   
   if(affectedRows > 0) {
@@ -26,7 +46,7 @@ exports.download = async ctx => {
   // ctx.response.setHeader("Access-Control-Allow-Origin", "*");
   let { id } = ctx.params;
   
-  let item = await show(id);
+  let item = await q_download(id);
   
   if(item == null)  {
     ctx.body = {result: "fail"};
@@ -41,7 +61,7 @@ exports.download = async ctx => {
 /** 압축파일로 반환 */
 exports.archive = async ctx => {
   // ctx.response.setHeader("Access-Control-Allow-Origin", "*");
-  let item = await archive();
+  let item = await q_archive();
   const zip = new JSZip;
 
   if(item == null)  {
@@ -65,7 +85,7 @@ exports.archive = async ctx => {
 }
 
 exports.index = async ctx => {
-  let item = await index();
+  let item = await q_index();
 
   if(item == null) {
     ctx.body = {result: "failure in retrieving files."}

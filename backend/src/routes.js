@@ -24,15 +24,15 @@ router.get('/page/:page', webController.page);
 router.post('/api/user/register', apiUserController.register);
 router.post('/api/user/login', apiUserController.login);
 
-// router.use(verify);
+router.use(verify);
 
 router.get('/api/user/:id', apiUserController.info);
 
 router.post('/file/upload', upload.single('file'), require('./api/file/controller').upload);
+router.put('/file/update', upload.single('file'), require('./api/file/controller').update);
 router.get('/file/:id', require('./api/file/controller').download);
 router.get('/file_archive', require('./api/file/controller').archive);
 router.get('/file_index', require('./api/file/controller').index);
-
 
 router.get('/api/feed', apiFeedController.index); 
 router.post('/api/feed', apiFeedController.store);
@@ -40,4 +40,4 @@ router.get('/api/feed/:id', apiFeedController.show);
 router.put('/api/feed/:id', apiFeedController.update);
 router.delete('/api/feed/:id', apiFeedController.delete);
 
-module.exports = router;
+module.exports = router;    

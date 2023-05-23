@@ -1,4 +1,4 @@
-# Dockerfile for node.js
+# Dockerfile for mysql 
 
 FROM mysql:8.0.32
 

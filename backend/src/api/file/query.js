@@ -7,30 +7,36 @@ const { pool } = require('../../data')
  * @param {string} size 파일 크기
  * @returns 
  */
-exports.create = async (name, path, size) => {
+exports.q_upload = async (name, path, size, title, ownerId) => {
   const query = `INSERT INTO files 
-  (original_name, file_path, file_size)
-  VALUES (?,?,?)`;
-  return await pool(query, [name, path, size]);
+  (original_name, file_path, file_size, file_title, file_owner)
+  VALUES (?,?,?,?,?)`;
+  return await pool(query, [name, path, size, title, ownerId]);
 }
+
+exports.q_update = async(name, path, size, title, fileId) => {
+  const query = `UPDATE files SET original_name = ?, file_path = ?, file_size = ?, file_title = ? WHERE id = ?`;
+  return await pool(query, [name, path, size, title, fileId]);
+}
+
 /**
  * 파일 데이터베이스로부터 정보 조회 함수
  * @param {number} id 파일 데이터베이스 id
  * @returns 
  */
-exports.show = async (id) => {
+exports.q_download = async (id) => {
   const query = `SELECT * FROM files WHERE id =  ?`;
   let result = await pool(query, [id]);
   return (result.length < 0) ? null : result[0];
 }
 
-exports.archive = async () => {
+exports.q_archive = async () => {
   // Below query is subject to change
   const query = `SELECT * from files;`;
   return await pool(query);
 }
 
-exports.index = async () => {
+exports.q_index = async () => {
   const query = `SELECT id FROM files;`;
   return await pool(query);
 }

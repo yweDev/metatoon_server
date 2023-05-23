@@ -2,16 +2,14 @@
 
 version: '3.5'
 services:
-  server:
+  backend:
     build:
-      context: ./server
+      context: ./backend
     restart: always
     volumes:
       - ./db/storage:/app/storage
     ports: 
       - 46351:3000
-    networks:
-      - pseudo-net
     links:
       - "db"
   db:
@@ -21,9 +19,5 @@ services:
     volumes:
       - ./db/init:/docker-entrypoint-initdb.d
       - ./db/data:/var/lib/mysql
-    networks:
-      - pseudo-net
     ports:
       - 46352:3306
-networks:
-  pseudo-net:
