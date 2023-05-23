@@ -31,7 +31,7 @@ exports.update = async (ctx) => {
   console.log("Saved Path : " + file.path);
   
   if(affectedRows > 0) {
-    ctx.body = { result: "ok", id: insertId }
+    ctx.body = { result: "ok", id: fileId }
   } else {
     ctx.body = { result: "fail", }
   }
