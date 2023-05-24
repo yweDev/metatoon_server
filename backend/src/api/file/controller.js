@@ -19,7 +19,11 @@ exports.upload = async (ctx) => {
   }
 }
 
-/** 파일 업데이트 */
+/**
+ * 파일 업데이트
+ * @param {int} fileId 변경할 파일의 id값
+ * @param {string} fileTitle 파일 이름 or 웹툰 제목
+ */
 exports.update = async (ctx) => {
   let file = ctx.request.file;
   let { fileId, fileTitle } = ctx.request.body;
@@ -60,7 +64,6 @@ exports.download = async ctx => {
 
 /** 압축파일로 반환 */
 exports.archive = async ctx => {
-  // ctx.response.setHeader("Access-Control-Allow-Origin", "*");
   let item = await q_archive();
   const zip = new JSZip;
 
@@ -71,19 +74,21 @@ exports.archive = async ctx => {
 
   for(let i = 0; i < item.length; i++)
   {
-    zip.file(item[i].file_path, item[i].original_name);
+    zip.file(item[i].id + "_" + item[i].original_name, fs.createReadStream(item[i].file_path));
   }
 
   const stream = new PassThrough();
   zip.generateNodeStream({type: 'nodebuffer', streamFiles: true}).pipe(stream);
 
-  ctx.set('Content-Type', 'application/zip');
-  ctx.set('Content-Disposition', 'attatchment; filename="files.zip"');
+  ctx.response.set('Content-Type', 'application/zip');
+  ctx.response.set('Content-Disposition', 'attatchment; filename="files.zip"');
   
   ctx.statusCode = 200;
   ctx.body = stream;
+  // ctx.body = fs.createReadStream(item[0].file_path) // it works...
 }
 
+/** 저장된 파일 id값 반환 */
 exports.index = async ctx => {
   let item = await q_index();
 

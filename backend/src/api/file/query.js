@@ -21,8 +21,7 @@ exports.q_update = async(name, path, size, title, fileId) => {
 
 /**
  * 파일 데이터베이스로부터 정보 조회 함수
- * @param {number} id 파일 데이터베이스 id
- * @returns 
+ * @param {int} id 파일 데이터베이스 id
  */
 exports.q_download = async (id) => {
   const query = `SELECT * FROM files WHERE id =  ?`;
