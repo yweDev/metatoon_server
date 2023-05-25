@@ -11,6 +11,11 @@ exports.q_upload = async (name, path, size, title, ownerId) => {
   const query = `INSERT INTO files 
   (original_name, file_path, file_size, file_title, file_owner)
   VALUES (?,?,?,?,?)`;
+
+  // query2 does file_episode += 1
+  // const query2 = `UPDATE files SET file_episode = file_episode + (SELECT COUNT(DISTINCT ?) FROM files) + 1 WHERE id = (SELECT LAST_INSERT_ID())`;  
+  // await pool(query2, [title]);
+  
   return await pool(query, [name, path, size, title, ownerId]);
 }
 
@@ -25,9 +30,11 @@ exports.q_update = async(name, path, size, title, fileId) => {
  */
 exports.q_download = async (id) => {
   const query = `SELECT * FROM files WHERE id =  ?`;
-  const queryCounter = `UPDATE files SET file_counter = file_counter + 1 WHERE id = ?`;
   
-  await pool(queryCounter, [id]);
+  // query2 does file_view += 1
+  const query2 = `UPDATE files SET file_view = file_view + 1 WHERE id = ?`;
+  await pool(query2, [id]);
+  
   let result = await pool(query, [id]);
   return (result.length < 0) ? null : result[0];
 }

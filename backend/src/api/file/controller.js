@@ -74,7 +74,7 @@ exports.archive = async ctx => {
 
   for(let i = 0; i < item.length; i++)
   {
-    zip.file(item[i].id + "_" + item[i].original_name, fs.createReadStream(item[i].file_path));
+    zip.file(item[i].id + "_" + item[i].file_title, fs.createReadStream(item[i].file_path));
   }
 
   const stream = new PassThrough();
