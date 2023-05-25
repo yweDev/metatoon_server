@@ -25,6 +25,9 @@ exports.q_update = async(name, path, size, title, fileId) => {
  */
 exports.q_download = async (id) => {
   const query = `SELECT * FROM files WHERE id =  ?`;
+  const queryCounter = `UPDATE files SET file_counter = file_counter + 1 WHERE id = ?`;
+  
+  await pool(queryCounter, [id]);
   let result = await pool(query, [id]);
   return (result.length < 0) ? null : result[0];
 }
