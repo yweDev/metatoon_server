@@ -8,19 +8,15 @@ const { pool } = require('../../data')
  * @returns 
  */
 exports.q_upload = async (name, path, size, title, ownerId) => {
-  const query = `INSERT INTO files 
+  const query = `INSERT INTO file 
   (original_name, file_path, file_size, file_title, file_owner)
   VALUES (?,?,?,?,?)`;
-
-  // query2 does file_episode += 1
-  // const query2 = `UPDATE files SET file_episode = file_episode + (SELECT COUNT(DISTINCT ?) FROM files) + 1 WHERE id = (SELECT LAST_INSERT_ID())`;  
-  // await pool(query2, [title]);
   
   return await pool(query, [name, path, size, title, ownerId]);
 }
 
 exports.q_update = async(name, path, size, title, fileId) => {
-  const query = `UPDATE files SET original_name = ?, file_path = ?, file_size = ?, file_title = ? WHERE id = ?`;
+  const query = `UPDATE file SET original_name = ?, file_path = ?, file_size = ?, file_title = ? WHERE id = ?`;
   return await pool(query, [name, path, size, title, fileId]);
 }
 
@@ -29,23 +25,28 @@ exports.q_update = async(name, path, size, title, fileId) => {
  * @param {int} id 파일 데이터베이스 id
  */
 exports.q_download = async (id) => {
-  const query = `SELECT * FROM files WHERE id =  ?`;
+  const query = `SELECT * FROM file WHERE id =  ?`;
   
   // query2 does file_view += 1
-  const query2 = `UPDATE files SET file_view = file_view + 1 WHERE id = ?`;
+  const query2 = `UPDATE file SET file_view = file_view + 1 WHERE id = ?`;
   await pool(query2, [id]);
   
   let result = await pool(query, [id]);
   return (result.length < 0) ? null : result[0];
 }
 
-exports.q_archive = async () => {
+exports.q_archive = async (userId) => {
   // Below query is subject to change
-  const query = `SELECT * from files;`;
-  return await pool(query);
+  if(userId <= 0){
+    const query = `SELECT * from file where file_owner is NOT NULL;`;
+    return await pool(query);
+  } else {
+    const query = `SELECT * from file where file_owner = ?;`;
+    return await pool(query, [userId]);
+  }
 }
 
 exports.q_index = async () => {
-  const query = `SELECT id FROM files;`;
+  const query = `SELECT id FROM file;`;
   return await pool(query);
 }

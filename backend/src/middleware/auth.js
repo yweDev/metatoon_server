@@ -1,3 +1,4 @@
+// Module to verify user
 const jwt = require('jsonwebtoken');
 
 exports.verify = async (ctx, next) => {
