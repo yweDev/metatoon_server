@@ -34,7 +34,7 @@ router.get('/file_index', require('./api/file/controller').index);
 // AUTH
 router.use(verify);
 
-router.get('/api/user/:id', apiUserController.info);
+router.get('/api/user', apiUserController.info);
 
 // FILE
 router.post('/file/upload', upload.single('file'), require('./api/file/controller').upload);

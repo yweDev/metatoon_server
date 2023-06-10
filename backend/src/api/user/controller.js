@@ -5,9 +5,12 @@ const crypto = require('crypto');
 var regmail = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 
 /** 해당 id의 회원정보들 */
-exports.info = (ctx, next) => {
-  let id = ctx.params.id;
-  ctx.body = `${id} 회원에 대한 정보`;
+exports.info = async (ctx, next) => {
+  // let id = ctx.params.id;
+  let user = ctx.request.user;
+  let item = await query.info(user.id);
+
+  ctx.body = item;
 }
  /** 회원 가입 */
 exports.register = async (ctx, next) => {

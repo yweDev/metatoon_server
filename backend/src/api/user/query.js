@@ -1,4 +1,10 @@
 const { pool } = require('../../data')
+
+exports.info = async(userId) =>{
+  const query = `SELECT * from user where id = ?`;
+  return await pool(query, [userId]);
+}
+
 /**
  * 회원가입
  * @param {string} email 메일(아이디)
