@@ -30,6 +30,12 @@ router.post('/api/user/login', apiUserController.login);
 router.get('/file/:id', require('./api/file/controller').download);
 router.get('/file_archive', require('./api/file/controller').archive);
 router.get('/file_index', require('./api/file/controller').index);
+router.put('/file/update', upload.single('file'), require('./api/file/controller').update);
+
+// TOON W/OUT AUTH
+router.get('/toon/:id', require('./api/toon/controller').download);
+router.get('/toon_archive', require('./api/toon/controller').archive);
+router.get('/toon_index', require('./api/toon/controller').index);
 
 // AUTH
 router.use(verify);
@@ -38,14 +44,11 @@ router.get('/api/user', apiUserController.info);
 
 // FILE
 router.post('/file/upload', upload.single('file'), require('./api/file/controller').upload);
-router.put('/file/update', upload.single('file'), require('./api/file/controller').update);
+// router.put('/file/update', upload.single('file'), require('./api/file/controller').update);
 
 // TOON
-router.get('/toon/:id', require('./api/toon/controller').download);
 router.post('/toon/upload', upload.single('toon'), require('./api/toon/controller').upload);
-router.put('/toon/upload', upload.single('toon'), require('./api/toon/controller').update);
-router.get('/toon_archive', require('./api/toon/controller').archive);
-router.get('/toon_index', require('./api/toon/controller').index);
+router.put('/toon/update', upload.single('toon'), require('./api/toon/controller').update);
 
 // Unused
 router.get('/api/feed', apiFeedController.index); 
