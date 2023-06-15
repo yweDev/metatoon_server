@@ -27,10 +27,6 @@ exports.q_update = async(name, path, size, title, fileId) => {
 exports.q_download = async (id) => {
   const query = `SELECT * FROM file WHERE id =  ?`;
   
-  // query2 does file_view += 1
-  const query2 = `UPDATE file SET file_view = file_view + 1 WHERE id = ?`;
-  await pool(query2, [id]);
-  
   let result = await pool(query, [id]);
   return (result.length < 0) ? null : result[0];
 }
