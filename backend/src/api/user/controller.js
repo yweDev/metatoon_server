@@ -65,13 +65,6 @@ exports.update = async (ctx, next) => {
   // original password, new password
   let { originalPw, newPw } = ctx.request.body;
 
-  // 로그인하지 않았을 경우
-  if(user.id == -9){
-    ctx.status = 501;
-    ctx.body = {result: "fail", message: `로그인 후 다시 시도해주세요.`}
-    return;
-  }
-
   let cryptOld = await crypto.pbkdf2Sync(originalPw, process.env.APP_KEY, 50, 100, 'sha512');
   let cryptNew = await crypto.pbkdf2Sync(newPw, process.env.APP_KEY, 50, 100, 'sha512');
 
