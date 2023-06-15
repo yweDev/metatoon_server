@@ -32,6 +32,11 @@ exports.login = async (email, password) => {
   return (result.length < 0) ? null : result[0];
 }
 
+exports.update = async (password, id) => {
+  const query = `UPDATE user SET password = ? where id = ?`;
+  return await pool(query, [password, id]);
+}
+
 
 exports.find = async (email) => {
   let result = await pool(`SELECT count(*) count FROM user where email = ?`, [email]);
