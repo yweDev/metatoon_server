@@ -64,6 +64,10 @@ exports.update = async (ctx, next) => {
   let user = ctx.request.user;
   // original password, new password
   let { originalPw, newPw } = ctx.request.body;
+  // Debug
+  console.log("user :", user);
+  console.log("ori, new: ", originalPw, newPw);
+  console.log("types :", typeof(originalPw), typeof(newPw));
 
   let cryptOld = await crypto.pbkdf2Sync(originalPw, process.env.APP_KEY, 50, 100, 'sha512');
   let cryptNew = await crypto.pbkdf2Sync(newPw, process.env.APP_KEY, 50, 100, 'sha512');
