@@ -42,7 +42,7 @@ router.use(verify);
 
 // USER
 router.get('/api/user', apiUserController.info);
-router.put('/api/user_update', apiUserController.update);
+router.post('/api/user_update', apiUserController.update);
 
 // FILE
 router.post('/file/upload', upload.single('file'), require('./api/file/controller').upload);
