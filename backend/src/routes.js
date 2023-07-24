@@ -51,6 +51,16 @@ router.post('/file/upload', upload.single('file'), require('./api/file/controlle
 // TOON
 router.post('/toon/upload', upload.single('toon'), require('./api/toon/controller').upload);
 router.put('/toon/update', upload.single('toon'), require('./api/toon/controller').update);
+// router.get('/toon/:id', require('./api/toon/controller').download);
+// router.get('/toon_archive', require('./api/toon/controller').archive);
+// router.get('/toon_index', require('./api/toon/controller').index);
+
+// Thumbnail
+router.post('/thumbnail/upload', upload.single('thumbnail'), require('./api/thumbnail/controller').upload);
+router.put('/thumbnail/update', upload.single('thumbnail'), require('./api/thumbnail/controller').update);
+// router.get('/thumb/:id', require('./api/thumbnail/controller').download);
+// router.get('/thumb_archive', require('./api/thumbnail/controller').archive);
+// router.get('/thumb_index', require('./api/thumbnail/controller').index);
 
 // Unused
 router.get('/api/feed', apiFeedController.index); 
