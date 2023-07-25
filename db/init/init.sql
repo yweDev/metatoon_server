@@ -38,6 +38,7 @@ toon_size INT NOT NULL,
 toon_title VARCHAR(255) NOT NULL,
 toon_owner INT NOT NULL,
 toon_view INT DEFAULT 0,
+toon_sequence INT DEFAULT 0,
 created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -48,6 +49,8 @@ thumbnail_path VARCHAR(255) NOT NULL,
 thumbnail_size INT NOT NULL,
 thumbnail_title VARCHAR(255) NOT NULL,
 thumbnail_owner INT NOT NULL,
+thumbnail_sequence INT DEFAULT 0,
+thumbnail_toon_title VARCHAT(255) NOT NULL, # value from toon_title
 created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -66,7 +69,7 @@ SELECT * FROM thumbnail
 # DROP table feed;
 # DROP table file;
 # DROP table toon;
-
+# DROP table thumbnail;
 ## Test queries
 
 # INSERT INTO files (original_name, file_path, file_size) VALUES ('aaa', 'here', 899);

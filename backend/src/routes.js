@@ -58,9 +58,10 @@ router.put('/toon/update', upload.single('toon'), require('./api/toon/controller
 // Thumbnail
 router.post('/thumbnail/upload', upload.single('thumbnail'), require('./api/thumbnail/controller').upload);
 router.put('/thumbnail/update', upload.single('thumbnail'), require('./api/thumbnail/controller').update);
-// router.get('/thumb/:id', require('./api/thumbnail/controller').download);
-// router.get('/thumb_archive', require('./api/thumbnail/controller').archive);
-// router.get('/thumb_index', require('./api/thumbnail/controller').index);
+router.get('/thumb/:id', require('./api/thumbnail/controller').download);
+router.get('/thumb_archive', require('./api/thumbnail/controller').archive);
+router.get('/thumb_archive/:toonTitle', require('./api/thumbnail/controller').archive_toon_title);
+router.get('/thumb_index', require('./api/thumbnail/controller').index);
 
 // Unused
 router.get('/api/feed', apiFeedController.index); 

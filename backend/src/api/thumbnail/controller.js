@@ -1,4 +1,4 @@
-const { q_upload, q_update, q_download, q_archive, q_index } = require('./query');
+const { q_upload, q_update, q_download, q_archive, q_archive_toon_tilte, q_index } = require('./query');
 const fs = require('fs');
 const JSZip = require('jszip');
 const { PassThrough } = require('stream');
@@ -26,12 +26,12 @@ exports.upload = async (ctx) => {
  */
 exports.update = async (ctx) => {
   let thumbnail = ctx.request.file;
-  let { thumbnailId, thumbnailTitle } = ctx.request.body;
+  let { thumbnailId, thumbnailTitle, thumbnailSequence } = ctx.request.body;
   let user = ctx.request.user;
 
   // 요청자와 웹툰 소유자 확인 코드 추가
 
-  let { affectedRows, insertId } = await q_update(thumbnail.originalname, thumbnail.path, thumbnail.size, thumbnailTitle, thumbnailId);
+  let { affectedRows, insertId } = await q_update(thumbnail.originalname, thumbnail.path, thumbnail.size, thumbnailTitle, thumbnailSequence, thumbnailId);
   console.log("Saved Path : " + thumbnail.path);
   
   if(affectedRows > 0) {
@@ -58,9 +58,37 @@ exports.download = async ctx => {
   ctx.body = fs.createReadStream(item.thumbnail_path);
 }
 
-/** 압축파일로 반환 */
+/** 압축파일로 반환-전체 */
 exports.archive = async ctx => {
   let item = await q_archive();
+  const zip = new JSZip;
+
+  if(item == null)  {
+    ctx.body = {result: "failure in retrieving thumbnail."};
+    return;
+  }
+
+  for(let i = 0; i < item.length; i++)
+  {
+    zip.file(item[i].id + "_" + item[i].thumbnail_title + ".png", fs.createReadStream(item[i].thumbnail_path));
+  }
+
+  const stream = new PassThrough();
+  zip.generateNodeStream({type: 'nodebuffer', streamFiles: true}).pipe(stream);
+
+  ctx.response.set('Content-Type', 'application/zip');
+  ctx.response.set('Content-Disposition', 'attatchment; filename="thumbnail.zip"');
+  
+  ctx.statusCode = 200;
+  ctx.body = stream;
+  // ctx.body = fs.createReadStream(item[0].thumbnail_path) // it works...
+}
+
+/** 압축파일로 반환-필터 */
+exports.archive_toon_title = async ctx => {
+  let { toonTitle } = ctx.params;
+
+  let item = await q_archive_filter(toonTitle);
   const zip = new JSZip;
 
   if(item == null)  {
