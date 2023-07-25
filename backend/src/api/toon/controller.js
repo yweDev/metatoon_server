@@ -109,7 +109,7 @@ exports.view = async ctx => {
     return;
   }
 
-  ctx.response.set("content-disposition", `attachment; filename=${item.toon_title + "_" + item.toon_episode}`);
+  ctx.response.set("content-disposition", `attachment; filename=${item.toon_title + "_" + item.toon_episode}.png`);
   ctx.statusCode = 200;
   ctx.body = fs.createReadStream(item.toon_path);
 }
