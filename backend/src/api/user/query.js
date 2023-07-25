@@ -1,4 +1,10 @@
 const { pool } = require('../../data')
+
+exports.info = async(userId) =>{
+  const query = `SELECT * from user where id = ?`;
+  return await pool(query, [userId]);
+}
+
 /**
  * 회원가입
  * @param {string} email 메일(아이디)
@@ -24,6 +30,11 @@ exports.login = async (email, password) => {
   email = ? AND password = ?`;
   let result = await pool(query, [email, password]);
   return (result.length < 0) ? null : result[0];
+}
+
+exports.update = async (password, id) => {
+  const query = `UPDATE user SET password = ? where id = ?`;
+  return await pool(query, [password, id]);
 }
 
 
