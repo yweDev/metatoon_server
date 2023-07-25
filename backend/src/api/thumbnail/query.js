@@ -7,17 +7,17 @@ const { pool } = require('../../data')
  * @param {string} size 파일 크기
  * @returns 
  */
-exports.q_upload = async (name, path, size, title, ownerId) => {
+exports.q_upload = async (name, path, size, thumbTitle, ownerId, episode, toonTitle) => {
   const query = `INSERT INTO thumbnail 
-  (original_name, thumbnail_path, thumbnail_size, thumbnail_title, thumbnail_owner)
-  VALUES (?,?,?,?,?)`;
+  (original_name, thumbnail_path, thumbnail_size, thumbnail_title, thumbnail_owner, thumbnail_episode, thumbnail_toon_title)
+  VALUES (?,?,?,?,?,?,?)`;
   
-  return await pool(query, [name, path, size, title, ownerId]);
+  return await pool(query, [name, path, size, thumbTitle, ownerId, episode, toonTitle]);
 }
 
-exports.q_update = async(name, path, size, title, thumbnailSequence, thumbnailId) => {
-  const query = `UPDATE thumbnail SET original_name = ?, thumbnail_path = ?, thumbnail_size = ?, thumbnail_title = ?, thumbnail_sequence = ? WHERE id = ?`;
-  return await pool(query, [name, path, size, title, thumbnailSequence, thumbnailId]);
+exports.q_update = async(name, path, size, title, episode, thumbnailId) => {
+  const query = `UPDATE thumbnail SET original_name = ?, thumbnail_path = ?, thumbnail_size = ?, thumbnail_title = ?, thumbnail_episode = ? WHERE id = ?`;
+  return await pool(query, [name, path, size, title, episode, thumbnailId]);
 }
 
 /**
@@ -31,15 +31,15 @@ exports.q_download = async (id) => {
   return (result.length < 0) ? null : result[0];
 }
 
-// Retrieves thumbnail with sequence number of 0
+// Retrieves thumbnail with episode number of 0
 exports.q_archive = async () => {
   // Below query is subject to change
-  const query = `SELECT * FROM thumbnail WHERE thumbnail_sequence = 0;`;
+  const query = `SELECT * FROM thumbnail WHERE thumbnail_episode = 0;`;
   return await pool(query);
 }
 
 // Retrieves thumbnail filtered by toon_title
-exports.q_archive_toon_tilte = async (toonTitle) => {
+exports.q_archive_by_title = async (toonTitle) => {
   // Below query is subject to change
   const query = `SELECT * FROM thumbnail WHERE thumbnail_toon_title = ?;`;
   return await pool(query, [toonTitle]);

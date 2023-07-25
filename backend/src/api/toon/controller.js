@@ -1,4 +1,4 @@
-const { q_upload, q_update, q_download, q_archive, q_index } = require('./query');
+const { q_upload, q_update, q_download, q_archive, q_index, q_view } = require('./query');
 const fs = require('fs');
 const JSZip = require('jszip');
 const { PassThrough } = require('stream');
@@ -6,10 +6,10 @@ const { PassThrough } = require('stream');
 /** 웹툰 업로드 */
 exports.upload = async (ctx) => {
   let toon = ctx.request.file;
-  let { toonTitle } = ctx.request.body;
+  let { toonTitle, episode } = ctx.request.body;
   let user = ctx.request.user;
 
-  let { affectedRows, insertId } = await q_upload(toon.originalname, toon.path, toon.size, toonTitle, user.id);
+  let { affectedRows, insertId } = await q_upload(toon.originalname, toon.path, toon.size, toonTitle, user.id, episode);
   console.log("Saved Path : " + toon.path);
   
   if(affectedRows > 0) {
@@ -95,4 +95,21 @@ exports.index = async ctx => {
 
   ctx.statusCode = 200;
   ctx.body = item;
+}
+
+/** 웹툰 뷰어 */
+exports.view = async ctx => {
+  // ctx.response.setHeader("Access-Control-Allow-Origin", "*");
+  let { title, episode } = ctx.params;
+  
+  let item = await q_view(title, episode);
+  
+  if(item == null)  {
+    ctx.body = {result: "fail"};
+    return;
+  }
+
+  ctx.response.set("content-disposition", `attachment; filename=${item.toon_title + "_" + item.toon_episode}`);
+  ctx.statusCode = 200;
+  ctx.body = fs.createReadStream(item.toon_path);
 }

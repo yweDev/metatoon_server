@@ -36,6 +36,14 @@ router.put('/file/update', upload.single('file'), require('./api/file/controller
 router.get('/toon/:id', require('./api/toon/controller').download);
 router.get('/toon_archive', require('./api/toon/controller').archive);
 router.get('/toon_index', require('./api/toon/controller').index);
+router.get('/toon_view/:title/:episode', require('./api/toon/controller').view);
+
+
+// Thumbnail W/OUT AUTH
+router.get('/thumb/:id', require('./api/thumbnail/controller').download);
+router.get('/thumbnail_archive', require('./api/thumbnail/controller').archive);
+router.get('/thumbnail_archive/:toonTitle', require('./api/thumbnail/controller').archive_by_title);
+router.get('/thumbnail_index', require('./api/thumbnail/controller').index);
 
 // AUTH
 router.use(verify);
@@ -58,10 +66,10 @@ router.put('/toon/update', upload.single('toon'), require('./api/toon/controller
 // Thumbnail
 router.post('/thumbnail/upload', upload.single('thumbnail'), require('./api/thumbnail/controller').upload);
 router.put('/thumbnail/update', upload.single('thumbnail'), require('./api/thumbnail/controller').update);
-router.get('/thumb/:id', require('./api/thumbnail/controller').download);
-router.get('/thumb_archive', require('./api/thumbnail/controller').archive);
-router.get('/thumb_archive/:toonTitle', require('./api/thumbnail/controller').archive_toon_title);
-router.get('/thumb_index', require('./api/thumbnail/controller').index);
+// router.get('/thumb/:id', require('./api/thumbnail/controller').download);
+// router.get('/thumbnail_archive', require('./api/thumbnail/controller').archive);
+// router.get('/thumbnail_archive/:toonTitle', require('./api/thumbnail/controller').archive_by_title);
+// router.get('/thumbnail_index', require('./api/thumbnail/controller').index);
 
 // Unused
 router.get('/api/feed', apiFeedController.index); 

@@ -1,4 +1,4 @@
-const { q_upload, q_update, q_download, q_archive, q_archive_toon_tilte, q_index } = require('./query');
+const { q_upload, q_update, q_download, q_archive, q_archive_by_title, q_index } = require('./query');
 const fs = require('fs');
 const JSZip = require('jszip');
 const { PassThrough } = require('stream');
@@ -6,10 +6,10 @@ const { PassThrough } = require('stream');
 /** 썸네일 업로드 */
 exports.upload = async (ctx) => {
   let thumbnail = ctx.request.file;
-  let { thumbnailTitle } = ctx.request.body;
+  let { thumbnailTitle, toonTitle, episode } = ctx.request.body;
   let user = ctx.request.user;
 
-  let { affectedRows, insertId } = await q_upload(thumbnail.originalname, thumbnail.path, thumbnail.size, thumbnailTitle, user.id);
+  let { affectedRows, insertId } = await q_upload(thumbnail.originalname, thumbnail.path, thumbnail.size, thumbnailTitle, user.id, episode, toonTitle);
   console.log("Saved Path : " + thumbnail.path);
   
   if(affectedRows > 0) {
@@ -26,12 +26,12 @@ exports.upload = async (ctx) => {
  */
 exports.update = async (ctx) => {
   let thumbnail = ctx.request.file;
-  let { thumbnailId, thumbnailTitle, thumbnailSequence } = ctx.request.body;
+  let { thumbnailId, thumbnailTitle, episode } = ctx.request.body;
   let user = ctx.request.user;
 
   // 요청자와 웹툰 소유자 확인 코드 추가
 
-  let { affectedRows, insertId } = await q_update(thumbnail.originalname, thumbnail.path, thumbnail.size, thumbnailTitle, thumbnailSequence, thumbnailId);
+  let { affectedRows, insertId } = await q_update(thumbnail.originalname, thumbnail.path, thumbnail.size, thumbnailTitle, episode, thumbnailId);
   console.log("Saved Path : " + thumbnail.path);
   
   if(affectedRows > 0) {
@@ -70,7 +70,8 @@ exports.archive = async ctx => {
 
   for(let i = 0; i < item.length; i++)
   {
-    zip.file(item[i].id + "_" + item[i].thumbnail_title + ".png", fs.createReadStream(item[i].thumbnail_path));
+    // zip.file(item[i].id + "_" + item[i].thumbnail_title + ".png", fs.createReadStream(item[i].thumbnail_path));
+    zip.file(item[i].thumbnail_toon_title + "_" + item[i].thumbnail_episode + "_" + item[i].thumbnail_title + ".png", fs.createReadStream(item[i].thumbnail_path));
   }
 
   const stream = new PassThrough();
@@ -85,10 +86,10 @@ exports.archive = async ctx => {
 }
 
 /** 압축파일로 반환-필터 */
-exports.archive_toon_title = async ctx => {
+exports.archive_by_title = async ctx => {
   let { toonTitle } = ctx.params;
 
-  let item = await q_archive_filter(toonTitle);
+  let item = await q_archive_by_title(toonTitle);
   const zip = new JSZip;
 
   if(item == null)  {
@@ -98,7 +99,8 @@ exports.archive_toon_title = async ctx => {
 
   for(let i = 0; i < item.length; i++)
   {
-    zip.file(item[i].id + "_" + item[i].thumbnail_title + ".png", fs.createReadStream(item[i].thumbnail_path));
+    // zip.file(item[i].id + "_" + item[i].thumbnail_title + ".png", fs.createReadStream(item[i].thumbnail_path));
+    zip.file(item[i].thumbnail_toon_title + "_" + item[i].thumbnail_episode + "_" + item[i].thumbnail_title + ".png", fs.createReadStream(item[i].thumbnail_path));
   }
 
   const stream = new PassThrough();

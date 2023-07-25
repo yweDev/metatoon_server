@@ -7,12 +7,12 @@ const { pool } = require('../../data')
  * @param {string} size 파일 크기
  * @returns 
  */
-exports.q_upload = async (name, path, size, title, ownerId) => {
+exports.q_upload = async (name, path, size, title, ownerId, episode) => {
   const query = `INSERT INTO toon 
-  (original_name, toon_path, toon_size, toon_title, toon_owner)
-  VALUES (?,?,?,?,?)`;
+  (original_name, toon_path, toon_size, toon_title, toon_owner, toon_episode)
+  VALUES (?,?,?,?,?,?)`;
   
-  return await pool(query, [name, path, size, title, ownerId]);
+  return await pool(query, [name, path, size, title, ownerId, episode]);
 }
 
 exports.q_update = async(name, path, size, title, toonId) => {
@@ -21,7 +21,7 @@ exports.q_update = async(name, path, size, title, toonId) => {
 }
 
 /**
- * 파일 데이터베이스로부터 정보 조회 함수
+ * 웹툰 데이터베이스로부터 정보 조회 함수
  * @param {int} id 파일 데이터베이스 id
  */
 exports.q_download = async (id) => {
@@ -44,4 +44,15 @@ exports.q_archive = async () => {
 exports.q_index = async () => {
   const query = `SELECT id FROM toon;`;
   return await pool(query);
+}
+
+/**
+ * 웹툰 데이터베이스로부터 정보 조회 함수
+ * @param {int} id 파일 데이터베이스 id
+ */
+exports.q_view = async (title, episode) => {
+  const query = `SELECT * FROM toon WHERE toon_title =  ? AND toon_episode = ?`;
+  
+  let result = await pool(query, [title, episode]);
+  return (result.length < 0) ? null : result[0];
 }
