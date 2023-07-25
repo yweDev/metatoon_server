@@ -15,9 +15,9 @@ exports.q_upload = async (name, path, size, title, ownerId, episode) => {
   return await pool(query, [name, path, size, title, ownerId, episode]);
 }
 
-exports.q_update = async(name, path, size, title, toonId) => {
-  const query = `UPDATE toon SET original_name = ?, toon_path = ?, toon_size = ?, toon_title = ? WHERE id = ?`;
-  return await pool(query, [name, path, size, title, toonId]);
+exports.q_update = async(name, path, size, title, episode, toonId) => {
+  const query = `UPDATE toon SET original_name = ?, toon_path = ?, toon_size = ?, toon_title = ?, toon_episode = ? WHERE id = ?`;
+  return await pool(query, [name, path, size, title, episode, toonId]);
 }
 
 /**

@@ -26,12 +26,12 @@ exports.upload = async (ctx) => {
  */
 exports.update = async (ctx) => {
   let toon = ctx.request.file;
-  let { toonId, toonTitle } = ctx.request.body;
+  let { toonId, toonTitle, episode } = ctx.request.body;
   let user = ctx.request.user;
 
   // 요청자와 웹툰 소유자 확인 코드 추가
 
-  let { affectedRows, insertId } = await q_update(toon.originalname, toon.path, toon.size, toonTitle, toonId);
+  let { affectedRows, insertId } = await q_update(toon.originalname, toon.path, toon.size, toonTitle, episode, toonId);
   console.log("Saved Path : " + toon.path);
   
   if(affectedRows > 0) {
