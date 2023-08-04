@@ -7,7 +7,7 @@
 ## How to use(On mac or linux w/ docker)
 * Clone this repo.
     ```
-    git clone https://github.com/yweDev/node_server
+    git clone https://github.com/yweywe/node_server
     ```
 * Navigate to the project's root directory.
     ```
