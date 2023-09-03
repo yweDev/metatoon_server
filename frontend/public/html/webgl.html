@@ -1,0 +1,51 @@
+<!-- 이 파일 아님 -->
+<!-- public/html/webgl.html 대신 public/webgl.html 수정할 것 -->
+
+<!doctype html>
+<html lang="en-us">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Webtoon production</title>
+  <link rel="stylesheet" href="/TemplateData/style.css">
+  <link rel="shortcut icon" href="/TemplateData/favicon.ico" />
+  <link rel="stylesheet" href="/css/webtoon_test.css" />
+</head>
+
+<body>
+  <header>
+    <h1>웹툰 제작</h1>
+    <nav>
+      <ul>
+        <li><a href="/">홈</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div id="unity-container" class="unity-desktop">
+    <div id="canvas-wrap">
+      <div id="rpm-container">
+        <iframe id="rpm-frame" class="rpm-frame" allow="camera *; microphone *"></iframe>
+        <button id="rpm-hide-button" onclick="hideRpm()">Hide</button>
+      </div>
+      <canvas id="unity-canvas"></canvas>
+    </div>
+    <div id="unity-loading-bar">
+      <div id="unity-logo"></div>
+      <div id="unity-progress-bar-empty">
+        <div id="unity-progress-bar-full"></div>
+      </div>
+    </div>
+    <div id="unity-warning"> </div>
+    <form action="/imageEditor" method="get">
+      <button id="editorButton" type="submit">이미지 편집</button>
+    </form>
+  </div>
+  
+  </div>
+  <script src="/TemplateData/Global.js"></script>
+  <script src="/TemplateData/UnitySetup.js"></script>
+  <script src="/TemplateData/ReadyPlayerMeFrame.js"></script>
+</body>
+
+</html>

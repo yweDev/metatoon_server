@@ -1,0 +1,164 @@
+/* Reset default margin and padding */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* style for header */
+header {
+  background-color: #232323;
+  color: #fff;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* style for navigation */
+nav ul {
+  list-style: none;
+  display: flex;
+  margin-right: 40px;
+}
+
+nav li {
+  margin-left: 20px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+nav a:hover {
+  color: #ffcd00;
+  font-size: 18.5px;
+  transition: 0.3s;
+}
+
+/* Style for main buttons */
+/* 이미지 경로 수정 필요 */
+main {
+  text-align: center;
+  /* background-image: url("/img/bdc2a5190927b14c.jpeg"); */
+  background-size: 100%;
+}
+
+h2 {
+  margin-top: 60px;
+  font-size: 70px;
+  color: white;
+}
+
+form {
+  display: inline-block;
+  margin-top: 30px;
+}
+
+button {
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  font-size: 36px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+button:hover {
+  padding: 16px 28px;
+  font-size: 46px;
+  transition: 0.3bode servers;
+  background-color: #45a049;
+}
+
+/* Optional: Styling for the buttons inside forms */
+#productionButton {
+  background-color: #007bff;
+}
+
+#productionButton:hover {
+  background-color: #0056b3;
+}
+
+#viewerButton {
+  background-color: #f08080;
+}
+
+#viewerButton:hover {
+  background-color: #d95d5d;
+}
+
+/* Additional styling for the webtoon section */
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px;
+  padding-bottom: 400px;
+}
+
+section {
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.webtoon-item {
+  flex-basis: 33.33%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0px 0px 10px rgba(3, 1, 1, 0.2);
+  transition: all 0.3s ease-in-out;
+  margin: 20px;
+}
+
+.webtoon-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.webtoon-item img {
+  width: 370px;
+  height: 270px;
+  display: block;
+}
+
+/* Style for footer */
+footer {
+  background-color: #f1f1f1;
+  text-align: center;
+  padding: 20px;
+}
+
+/******************/
+
+/* Additional styling for the container */
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  grid-gap: 20px;
+  text-align: center;
+  align-items: center;
+}
+
+#loading {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  z-index: 9999;
+}

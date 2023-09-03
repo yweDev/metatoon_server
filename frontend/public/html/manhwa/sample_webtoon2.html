@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <link rel="stylesheet" href="../../css/webtoon_test.css" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>웹툰 뷰어 플랫폼</title>
+    <!-- JSZip 사용하기 위한 소스 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>웹툰 뷰어 플랫폼</h1>
+      <nav>
+        <ul>
+          <li><a href="/">홈</a></li>
+          <li><a id="link1" href=""></a></li>
+          <li><a id="link2" href=""></a></li>
+        </ul>
+      </nav>
+      <script src="/js/token_check.js"></script>
+      <script src="/js/logout.js"></script>
+    </header>
+    <main>
+      <section>
+        <h2 style="margin-bottom: 20px">회차 정보</h2>
+        <div id="loading">
+          <img src="/img/Rolling-1.4s-200px.gif" alt="Loading" />
+        </div>
+        <ul id="container" style="list-style: none"></ul>
+        <script type="module" src="/js/create_episode.js"></script>
+      </section>
+    </main>
+    <footer>
+      <p>웹툰 뷰어 플랫폼</p>
+    </footer>
+  </body>
+</html>

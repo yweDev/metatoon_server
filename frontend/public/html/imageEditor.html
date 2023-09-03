@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <link rel="stylesheet" href="/css/edit.css" />
+    <link rel="stylesheet" href="https://uicdn.toast.com/tui-image-editor/latest/tui-image-editor.css">
+    <head>
+        <meta charset="utf-8">
+        <title>TUI Image Editor</title>
+        <script src="/js/readImages.js"></script>
+        <script src="/js/updateImage.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
+    </head>
+    <body>
+        <div class="flex-container">
+            <div class="image-container" id="image-container"></div>
+            <div>
+                <div id="button-wrapper">
+                    <button onclick="updateData()">save</button>
+                </div>
+                <div id="tui-image-editor">
+                    <canvas></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <script src="https://uicdn.toast.com/tui-code-snippet/v1.5.0/tui-code-snippet.min.js"></script>
+        <script src="https://uicdn.toast.com/tui-color-picker/v2.2.6/tui-color-picker.min.js"></script>
+        <script src="https://uicdn.toast.com/tui-image-editor/latest/tui-image-editor.js"></script>
+        <script>
+            var whiteTheme = {
+                'menu.normalIcon.path': '../dist/svg/icon-d.svg',
+                'menu.activeIcon.path': '../dist/svg/icon-b.svg',
+                'menu.disabledIcon.path': '../dist/svg/icon-a.svg',
+                'menu.hoverIcon.path': '../dist/svg/icon-c.svg',
+                'submenu.normalIcon.path': '../dist/svg/icon-d.svg',
+                'submenu.activeIcon.path': '../dist/svg/icon-c.svg',
+                'checkbox.icon.path': '../dist/svg/icon-b.svg',
+                'radio.icon.path': '../dist/svg/icon-c.svg',
+                'range.pointer.color': '#fff',
+                'range.bar.color': '#666',
+                'range.subbar.color': '#d1d1d1',
+                'range.disabledPointer.color': '#fff',
+                'range.disabledBar.color': 'rgba(85,85,85,0.06)',
+                'range.disabledSubbar.color': 'rgba(51,51,51,0.2)',
+                'colorpicker.button.border.color': '#ccc',
+                'colorpicker.title.color': '#000'
+            };
+            
+            
+            var el = document.querySelector('#tui-image-editor');
+            var imageEditor = new tui.ImageEditor(el, {
+                includeUI: {
+                    loadImage: {
+                        
+
+                    },
+                    theme: whiteTheme, // or blackTheme
+                    initMenu: 'filter',
+                    uiSize: {
+                        width: '1200px',
+                        height: '1000px'
+                    },
+                    menuBarPosition: 'bottom'
+                    
+                },
+                cssMaxWidth: 1200, // 변경된 값
+                cssMaxHeight: 1200, // 변경된 값
+                selectionStyle: {
+                    cornerSize: 20,
+                    rotatingPointOffset: 70
+                }
+            });  
+        </script>
+    </body>
+</html>

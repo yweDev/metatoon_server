@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>회원가입 페이지</title>
+  </head>
+  <body>
+    <header>
+      <link rel="stylesheet" href="/css/webtoon_test.css" />
+      <h1>회원가입</h1>
+      <nav>
+        <ul>
+          <li id="loginBtn"><a href="/login">로그인</a></li>
+          <li><a href="/">홈</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <link rel="stylesheet" href="/css/login&register.css" />
+      <div class="register-wrapper">
+        <h2>Register</h2>
+        <form
+          method="POST"
+          action="http://34.145.65.5:46351/api/user/register"
+          id="register-form"
+        >
+          <input type="text" name="email" placeholder="Email" required />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+          />
+          <input type="text" name="name" placeholder="Name" required />
+          <input type="submit" value="Register" />
+        </form>
+        <script src="/js/register.js"></script>
+      </div>
+    </main>
+  </body>
+</html>
