@@ -1,4 +1,4 @@
-const { q_upload, q_update, q_download, q_archive, q_index, q_view } = require('./query');
+const { q_upload, q_update, q_download, q_archive, q_title, q_archive_by_title, q_index, q_view } = require('./query');
 const fs = require('fs');
 const JSZip = require('jszip');
 const { PassThrough } = require('stream');
@@ -82,6 +82,60 @@ exports.archive = async ctx => {
   ctx.statusCode = 200;
   ctx.body = stream;
   // ctx.body = fs.createReadStream(item[0].toon_path) // it works...
+}
+
+/** 중복없이 웹툰 제목만 반환 */
+exports.title = async ctx => {
+  let item = await q_title();
+  const zip = new JSZip;
+
+  if(item == null)  {
+    ctx.body = {result: "failure in retrieving toon."};
+    return;
+  }
+
+  // for(let i = 0; i < item.length; i++)
+  // {
+  //   zip.file(item[i].id + "_" + item[i].toon_title + ".png", fs.createReadStream(item[i].toon_path));
+  // }
+
+  // const stream = new PassThrough();
+  // zip.generateNodeStream({type: 'nodebuffer', streamFiles: true}).pipe(stream);
+
+  // ctx.response.set('Content-Type', 'application/zip');
+  // ctx.response.set('Content-Disposition', 'attatchment; filename="toon.zip"');
+  
+  ctx.statusCode = 200;
+  ctx.body = item;
+  // ctx.body = fs.createReadStream(item[0].toon_path) // it works...
+}
+
+/** 압축파일로 반환-필터 */
+exports.archive_by_title = async ctx => {
+  let { toonTitle } = ctx.params;
+
+  let item = await q_archive_by_title(toonTitle);
+  const zip = new JSZip;
+
+  if(item == null)  {
+    ctx.body = {result: "failure in retrieving toon."};
+    return;
+  }
+
+  for(let i = 0; i < item.length; i++)
+  {
+    zip.file(item[i].id + "_" + item[i].toon_title + ".png", fs.createReadStream(item[i].toon_path));
+  }
+
+  const stream = new PassThrough();
+  zip.generateNodeStream({type: 'nodebuffer', streamFiles: true}).pipe(stream);
+
+  ctx.response.set('Content-Type', 'application/zip');
+  ctx.response.set('Content-Disposition', 'attatchment; filename="toon.zip"');
+  
+  ctx.statusCode = 200;
+  ctx.body = stream;
+  // ctx.body = fs.createReadStream(item[0].thumbnail_path) // it works...
 }
 
 /** 저장된 웹툰 id값 반환 */
