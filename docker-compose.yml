@@ -9,7 +9,7 @@ services:
     volumes:
       - ./db/storage:/app/storage
     ports: 
-      - 46351:3000
+      - 3000:3000
     links:
       - "db"
   db:
@@ -20,4 +20,4 @@ services:
       - ./db/init:/docker-entrypoint-initdb.d
       - ./db/data:/var/lib/mysql
     ports:
-      - 46352:3306
+      - 3306:3306

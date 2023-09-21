@@ -41,6 +41,19 @@ exports.q_archive = async () => {
   return await pool(query);
 }
 
+exports.q_title = async () => {
+  // Below query is subject to change
+  const query = `SELECT DISTINCT toon_title from toon;`;
+  return await pool(query);
+}
+
+// Retrieves thumbnail filtered by toon_title
+exports.q_archive_by_title = async (toonTitle) => {
+  // Below query is subject to change
+  const query = `SELECT * FROM toon WHERE toon_title = ?;`;
+  return await pool(query, [toonTitle]);
+}
+
 exports.q_index = async () => {
   const query = `SELECT id FROM toon;`;
   return await pool(query);

@@ -35,6 +35,8 @@ router.put('/file/update', upload.single('file'), require('./api/file/controller
 // TOON W/OUT AUTH
 router.get('/toon/:id', require('./api/toon/controller').download);
 router.get('/toon_archive', require('./api/toon/controller').archive);
+router.get('/toon_title', require('./api/toon/controller').title);
+router.get('/toon_archive/:toonTitle', require('./api/toon/controller').archive_by_title);
 router.get('/toon_index', require('./api/toon/controller').index);
 router.get('/toon_view/:title/:episode', require('./api/toon/controller').view);
 
