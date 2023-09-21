@@ -1,4 +1,3 @@
-# Edit in progress(23.09.22)
 # Dockerized simple backend with mysql as database
 
 ## What it is
